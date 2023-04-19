@@ -2,9 +2,8 @@
 
 #!/bin/bash
 
-vcf_file=$1
-WORKDIR=$2
-FUNCDIR=$3
+WORKDIR=$1
+vcf_file=$2
 
 #SBATCH --partition=batch
 #SBATCH --job-name=AF
@@ -20,10 +19,10 @@ module load R-cbrg/current
 cd $WORKDIR
 
 # Run initial R script
-Rscript ${FUNCDIR}gnomAD_input_from_vcf.R $vcf_file
+Rscript R/gnomAD_input_from_vcf.R $vcf_file
 
 # Submit job array to Slurm
-job_array_id=$(sbatch -a 1-22 ${FUNCDIR}variant_searcher_array.sh $WORKDIR $vcf_file | awk '{print $4}')
+job_array_id=$(sbatch -a 1-22 BASH/variant_searcher_array.sh $WORKDIR $vcf_file | awk '{print $4}')
 
 echo $job_array_id
 
@@ -40,5 +39,5 @@ sbatch --dependency=afterok:$job_array_id <<EOF
 # load the R module on the SLURM cluster - edit appropriately
 module load R-cbrg/current
 # Run the final R script to collate AF data across all autosomal chromosomes
-Rscript ${FUNCDIR}gnomAD_output_collate.R $vcf_file
+Rscript R/gnomAD_output_collate.R $vcf_file
 EOF
