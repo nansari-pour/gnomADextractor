@@ -23,7 +23,7 @@ cd $WORKDIR
 Rscript ${FUNCDIR}gnomAD_input_from_vcf.R $vcf_file
 
 # Submit job array to Slurm
-job_array_id=$(sbatch -a 1-22 ${FUNCDIR}variant_searcher_array.sh $vcf_file | awk '{print $4}')
+job_array_id=$(sbatch -a 1-22 ${FUNCDIR}variant_searcher_array.sh $WORKDIR $vcf_file | awk '{print $4}')
 
 echo $job_array_id
 
