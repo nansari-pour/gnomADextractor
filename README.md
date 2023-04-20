@@ -54,10 +54,14 @@ The pipeline script takes in two arguments: path to the gnomADextractor director
 The output file will be in a tab-delimited text file, with the following columns (including header):
 
 Chromosome (CHROM)
+
 Position (POS)
+
 Reference allele (REF)
+
 Alternate allele (ALT)
-Population allele frequency (AF): *Variants with value of NA are those not found in gnomAD*
+
+Population allele frequency (AF): *Variants with value of NA are those absent in gnomAD*
 
 ## Contact
 
