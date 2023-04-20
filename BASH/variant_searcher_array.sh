@@ -1,4 +1,10 @@
 #!/bin/bash
+#SBATCH --partition=batch
+#SBATCH --job-name=gnomAD
+#SBATCH --mem=10GB
+#SBATCH --time=2:00:00
+#SBATCH --output=gnomAD_%j.outerr
+#SBATCH --error=gnomAD_%j.outerr
 
 # Get the chromosome number from the job array
 Chr=$SLURM_ARRAY_TASK_ID
@@ -7,17 +13,9 @@ WORKDIR=$1
 vcf_file=$2
 vcf_filename=${vcf_file%.vcf}
 
-
-#SBATCH --partition=batch
-#SBATCH --job-name=gnomAD
-#SBATCH --mem=10GB
-#SBATCH --time=2:00:00
-#SBATCH --output=${WORKDIR}gnomAD_%j.outerr
-#SBATCH --error=${WORKDIR}gnomAD_%j.outerr
-
 # gnomAD searcher parallelised across chromosomes #
 
-# set the file path and pattern to search
+# set the file path and pattern to search - the reference file folder hg38_gnomAD_AF_chrom/ must be in the WORKDIR
 file_path="${WORKDIR}hg38_gnomAD_AF_chrom/hg38_gnomAD_AF_chr${Chr}.txt"
 pattern_file="${WORKDIR}${vcf_filename}_chr${Chr}_gnomAD_input.txt"
 out_file="${WORKDIR}${vcf_filename}_chr${Chr}_gnomAD_output.txt"
