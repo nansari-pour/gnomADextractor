@@ -10,6 +10,7 @@ colnames(vcf)[1]="CHROM"
 ChrNot <<- nchar(vcf[1,1])
 if (ChrNot>3){
 print("chr chromosome notation")
+write.table(ChrNot,paste0(gsub(".vcf","",input_vcf),"_chrom_notation_length.txt"),col.names=F,row.names=F,quote=F)
 vcf$CHROM=gsub("chr","",vcf$CHROM)
 }
 vcf=vcf[which(vcf$FILTER=="PASS"),]
