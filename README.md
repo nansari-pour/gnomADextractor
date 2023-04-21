@@ -36,18 +36,18 @@ $ git clone https://github.com/nansari-pour/gnomADextractor
 ```
 $ cd gnomADextractor
 ```
-Then copy the reference files folder to this directory
+Then copy the reference files folder (hg38_gnomAD_AF_chrom/) to this directory
 ```
 $ cp -r /path/to/hg38_gnomAD_AF_chrom/ .
 ```
-The VCF file can be anywhere but full path to it must be provided as vcf_file in the pipeline (i.e. second argument provided to the pipeline script; see below)
+The VCF file can be anywhere but full path to it must be provided as vcf_file in the pipeline (i.e. the only argument provided to the pipeline script; see below)
 
 #### 3. Submit the pipeline job using the sbatch command:
 
 ```
-$ sbatch gnomADextractor.sh "$(pwd)/" /full/path/to/variant_file.vcf
+$ sbatch gnomADextractor.sh /full/path/to/VCF_file.vcf
 ```
-The pipeline script takes in two arguments: path to the gnomADextractor directory and full path to the VCF file
+The pipeline script takes in one argument: full path to the VCF file
 
 ## Output file format
 
@@ -61,7 +61,7 @@ Reference allele (REF)
 
 Alternate allele (ALT)
 
-Population allele frequency (AF): *Variants with value of NA are those absent in gnomAD*
+Population allele frequency (AF): *Variants with value of NA are those absent in gnomAD (i.e. novel or rare variant)*
 
 ## Contact
 
