@@ -17,7 +17,7 @@ To run gnomADextractor you need:
 2) the gnomAD reference files per chromosome in hg38_gnomAD_AF_chrom/ subdir in the WORKDIR (large files; available upon request)
 
 ## How it works
-There are three key steps in this pipeline
+There are three key steps in this pipeline:
 * Generate input files per chromosome from the VCF file: This is a space dilimited file with five columns of chromosome, start position, end position, reference allele and the alternate allele - this is implemented in ***R/gnomAD_input_from_vcf.R***
 * Search for variants observed in each chromsome of the VCF file for gnomAD population allele frequency (AF) - this is executed by ***BASH/variant_searcher_array.sh*** using the SLURM parallelisation feature (-a) for fast implementation.
 * Collate the chromosome-level output files from the variant search step into one genome-wide output file - this is implemented in ***R/gnomAD_output_collate.R***
