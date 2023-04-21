@@ -9,16 +9,15 @@
 # Get the chromosome number from the job array
 Chr=$SLURM_ARRAY_TASK_ID
 
-WORKDIR=$1
-vcf_file=$2
+vcf_file=$1
 vcf_filename=${vcf_file%.vcf}
 
 # gnomAD searcher parallelised across chromosomes #
 
 # set the file path and pattern to search - the reference file folder hg38_gnomAD_AF_chrom/ must be in the WORKDIR
-file_path="${WORKDIR}hg38_gnomAD_AF_chrom/hg38_gnomAD_AF_chr${Chr}.txt"
-pattern_file="${WORKDIR}${vcf_filename}_chr${Chr}_gnomAD_input.txt"
-out_file="${WORKDIR}${vcf_filename}_chr${Chr}_gnomAD_output.txt"
+file_path="hg38_gnomAD_AF_chrom/hg38_gnomAD_AF_chr${Chr}.txt"
+pattern_file="${vcf_filename}_chr${Chr}_gnomAD_input.txt"
+out_file="${vcf_filename}_chr${Chr}_gnomAD_output.txt"
 
 # read the pattern file line by line using a while loop
 while read -r pattern; do
@@ -30,5 +29,5 @@ while read -r pattern; do
     else
     # output NA
     echo $(echo $pattern "NA") >> $out_file
-  fi 
+  fi
 done < "$pattern_file"
