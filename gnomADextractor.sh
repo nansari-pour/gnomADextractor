@@ -8,20 +8,17 @@
 
 # SLURM-based pipeline for extracting gnomAD allele frequency (AF) for WGS/WES genomic variants
 
-WORKDIR=$1
-vcf_file=$2
+vcf_path=$1
+vcf_file=$(basename $vcf_path)
 
 # load the R module on the SLURM cluster - edit appropriately
 module load R-cbrg/current
 
-# make WORKDIR as the current working directory
-cd $WORKDIR
-
 # Run initial R script
-Rscript R/gnomAD_input_from_vcf.R $vcf_file
+Rscript R/gnomAD_input_from_vcf.R $vcf_path
 
 # Submit job array to Slurm
-job_array_id=$(sbatch -a 1-22 BASH/variant_searcher_array.sh $WORKDIR $vcf_file | awk '{print $4}')
+job_array_id=$(sbatch -a 1-22 BASH/variant_searcher_array.sh $vcf_file | awk '{print $4}')
 
 echo $job_array_id
 
@@ -32,8 +29,8 @@ sbatch --dependency=afterok:$job_array_id <<EOF
 #SBATCH --job-name=collate
 #SBATCH --mem=10GB
 #SBATCH --time=1:00:00
-#SBATCH --output=${WORKDIR}collate_%j.outerr
-#SBATCH --error=${WORKDIR}collate_%j.outerr
+#SBATCH --output=collate_%j.outerr
+#SBATCH --error=collate_%j.outerr
 
 # load the R module on the SLURM cluster - edit appropriately
 module load R-cbrg/current
