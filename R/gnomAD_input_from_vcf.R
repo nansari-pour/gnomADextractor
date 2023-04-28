@@ -8,10 +8,10 @@ num_comments <- as.numeric(system(command, intern = TRUE))
 vcf=read.table(input_vcf,header=T,comment.char = "",skip = num_comments,stringsAsFactors=F)
 colnames(vcf)[1]="CHROM"
 vcf_filename=basename(input_vcf)
-ChrNot <<- nchar(vcf[1,1])
+ChrNot <- nchar(vcf[1,1])
+write.table(ChrNot,paste0(gsub(".vcf","",vcf_filename),"_chrom_notation_length.txt"),col.names=F,row.names=F,quote=F)
 if (ChrNot>3){
 print("chr chromosome notation")
-write.table(ChrNot,paste0(gsub(".vcf","",vcf_filename),"_chrom_notation_length.txt"),col.names=F,row.names=F,quote=F)
 vcf$CHROM=gsub("chr","",vcf$CHROM)
 }
 vcf=vcf[which(vcf$FILTER=="PASS"),]
