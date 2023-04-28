@@ -51,7 +51,7 @@ The pipeline script takes in one argument: full path to the VCF file
 
 ## Output file format
 
-The output file will be in a tab-delimited text file, with the following columns (including header):
+1) The main output file (*\*_gnomAD_output.txt*) will be in a tab-delimited text file format, with the following columns (including header):
 
 Chromosome (CHROM)
 
@@ -62,6 +62,10 @@ Reference allele (REF)
 Alternate allele (ALT)
 
 Population allele frequency (AF): *Variants with value of NA are those absent in gnomAD (i.e. novel or rare variant)*
+
+2) An additional file (specifically required by the Tumour-only mode of the Battenberg copy number pipeline) will also be generated (*\*_chrom_notation_length.txt*), which contains a single numeric value:
+
+The numeric value (either 1 or 4) represents the length of the chromosome notation in the VCF file (emanating from the respective BAM file).
 
 ## Contact
 
