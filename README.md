@@ -6,6 +6,7 @@ This pipeline is designed to extract population allele frequency (AF) from gnomA
 Before running the pipeline, make sure you have the following dependencies installed:
 
 R (version 3.0.2 or higher)
+
 The pipeline assumes R is loaded on the cluster using:
 ```
 $ module load R
