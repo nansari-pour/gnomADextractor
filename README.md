@@ -68,6 +68,10 @@ Population allele frequency (AF): *Variants with value of NA are those absent in
 
 The numeric value (either 1 or 4) represents the length of the chromosome notation in the VCF file (emanating from the respective BAM file).
 
+## Note for TOBB users
+
+Both output files should be copied or symlinked to your TOBB working directory where your BAM file is (to be read by the **getSNVrho** function in TOBB)
+
 ## Contact
 
 If you have any questions or issues with the pipeline, please contact **naser.ansari-pour@omicsconsultancy.co.uk**
