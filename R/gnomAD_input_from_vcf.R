@@ -16,9 +16,9 @@ gnomAD_input_from_vcf=function(input_vcf,variant_filter){
     command <- paste0("zgrep '^##' ", input_vcf, " | wc -l")
     num_comments <- as.numeric(system(command, intern = TRUE))
   } else {
-  # Method to get number of lines to skip
-  command <- paste0("grep '^##' ", input_vcf, " | wc -l")
-  num_comments <- as.numeric(system(command, intern = TRUE))
+    # Method to get number of lines to skip
+    command <- paste0("grep '^##' ", input_vcf, " | wc -l")
+    num_comments <- as.numeric(system(command, intern = TRUE))
   }
   # read in vcf file using num_comments
   # fill TRUE and sep by tab to allow reading of annotated vcfs
@@ -31,6 +31,8 @@ gnomAD_input_from_vcf=function(input_vcf,variant_filter){
     print("chr chromosome notation")
     vcf$CHROM=gsub("chr","",vcf$CHROM)
   }
+  # Get vector of variant_filter FILTERS
+  variant_filter=unlist(strsplit(variant_filter," "))
   # Keep variants which match the variant_filter FILTERS (at least one e.g. "PASS")
   vcf=vcf[which(!is.na(match(vcf$FILTER,variant_filter))),]
   vcf$var=paste0(vcf$REF,vcf$ALT)
