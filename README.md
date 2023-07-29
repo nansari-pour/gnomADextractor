@@ -41,14 +41,17 @@ Then copy the reference files folder (hg38_gnomAD_AF_chrom/) to this directory
 ```
 $ cp -r /path/to/hg38_gnomAD_AF_chrom/ .
 ```
-The VCF file can be anywhere but full path to it must be provided as vcf_file in the pipeline (i.e. the only argument provided to the pipeline script; see below)
+The VCF file can be anywhere but full path to it must be provided as vcf_file in the pipeline (i.e. the first argument provided to the pipeline script; see below)
 
 #### 3. Submit the pipeline job using the sbatch command:
 
 ```
-$ sbatch gnomADextractor.sh /full/path/to/VCF_file.vcf
+$ sbatch gnomADextractor.sh /full/path/to/VCF_file.vcf "filter1 filter2 filter3 ..."
 ```
-The pipeline script takes in one argument: full path to the VCF file
+The pipeline script takes in two arguments: 
+
+a) full path to the VCF file
+b) The variant filter types in the FILTER column of the VCF file to be retained (spaced-delimited) e.g. "PASS germline_risk somatic"
 
 ## Output file format
 
