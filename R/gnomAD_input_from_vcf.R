@@ -43,9 +43,10 @@ gnomAD_input_from_vcf=function(input_vcf,variant_filter){
   }
 }
 
-# extract the vcf file string
+# extract the vcf file string and variant types in the FILTER column to be retained 
 Args=commandArgs(TRUE)
 vcf_path=toString(Args[1])
+variant_filter_types=toString(Args[2])
 
 # Run the function
 gnomAD_input_from_vcf(input_vcf = vcf_path,
