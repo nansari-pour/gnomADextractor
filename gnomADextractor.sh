@@ -11,11 +11,13 @@
 vcf_path=$1
 vcf_file=$(basename $vcf_path)
 
+variant_filter_types=$2
+
 # load the R module on the SLURM cluster - edit appropriately
 module load R-cbrg/current
 
 # Run initial R script
-Rscript R/gnomAD_input_from_vcf.R $vcf_path
+Rscript R/gnomAD_input_from_vcf.R $vcf_path $variant_filter_types
 
 # Submit job array to Slurm
 job_array_id=$(sbatch -a 1-22 BASH/variant_searcher_array.sh $vcf_file | awk '{print $4}')
