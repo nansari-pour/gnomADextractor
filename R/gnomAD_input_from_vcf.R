@@ -31,8 +31,8 @@ gnomAD_input_from_vcf=function(input_vcf,variant_filter){
     print("chr chromosome notation")
     vcf$CHROM=gsub("chr","",vcf$CHROM)
   }
-  # Get vector of variant_filter FILTERS
-  variant_filter=unlist(strsplit(variant_filter," "))
+  # Get vector of variant_filter FILTERS from comma-delimited input
+  variant_filter=unlist(strsplit(variant_filter,","))
   # Keep variants which match the variant_filter FILTERS (at least one e.g. "PASS")
   vcf=vcf[which(!is.na(match(vcf$FILTER,variant_filter))),]
   vcf$var=paste0(vcf$REF,vcf$ALT)
@@ -44,7 +44,6 @@ gnomAD_input_from_vcf=function(input_vcf,variant_filter){
     print(i)
   }
 }
-
 # extract the vcf file string and variant types in the FILTER column to be retained 
 Args=commandArgs(TRUE)
 vcf_path=toString(Args[1])
