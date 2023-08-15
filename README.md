@@ -78,6 +78,6 @@ Both output files should be copied or symlinked to your TOBB working directory w
 
 ## Contact
 
-If you have any questions or issues with the pipeline, please contact **naser.ansari-pour@omicsconsultancy.co.uk**
+If you have any questions or issues with the pipeline, please contact **naser@omicsconsultancy.co.uk**
 
 
