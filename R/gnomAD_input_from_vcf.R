@@ -40,7 +40,10 @@ gnomAD_input_from_vcf=function(input_vcf,variant_filter){
   snv$var=NULL
   for (i in 1:22){
     snv_chr=snv[snv$CHROM==i,]
-    write.table(snv_chr[,c("CHROM","POS","POS","REF","ALT")],paste0(gsub(".vcf","",vcf_filename),"_chr",i,"_gnomAD_input.txt"),col.names = F,row.names = F,quote = F,sep=" ")
+    if (decide_gz(input_vcf)){
+      outfile_name=paste0(gsub(".vcf.gz","",vcf_filename),"_chr",i,"_gnomAD_input.txt")
+    } else {outfile_name=paste0(gsub(".vcf","",vcf_filename),"_chr",i,"_gnomAD_input.txt")}
+    write.table(snv_chr[,c("CHROM","POS","POS","REF","ALT")],outfile_name,col.names = F,row.names = F,quote = F,sep=" ")
     print(i)
   }
 }
