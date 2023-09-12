@@ -15,18 +15,38 @@ gnomAD_input_from_vcf=function(input_vcf,variant_filter){
     # Method to get number of lines to skip
     command <- paste0("zgrep '^##' ", input_vcf, " | wc -l")
     num_comments <- as.numeric(system(command, intern = TRUE))
+    # obtain exact size of the uncompressed file
+    system(paste0("gunzip -c ", input_vcf, " > ",dirname(input_vcf),"/tmp_gnomADinput.vcf"))
+    vcf_size=file.size(paste0(dirname(input_vcf),"/tmp_gnomADinput.vcf")) 
+    system(paste0("rm ",dirname(input_vcf),"/tmp_gnomADinput.vcf"))
+    print(paste("VCF file size =",round(vcf_size/1024^3,digits = 2),"Gb"))
   } else {
     # Method to get number of lines to skip
     command <- paste0("grep '^##' ", input_vcf, " | wc -l")
     num_comments <- as.numeric(system(command, intern = TRUE))
+    vcf_size=file.size(input_vcf)
+    print(paste("VCF file size =",round(vcf_size/1024^3,digits = 2),"Gb"))
   }
-  # read in vcf file using num_comments
-  # fill TRUE and sep by tab to allow reading of annotated vcfs
+  
+  # read file depending on size (cut-off = 1Gb)
+  if (vcf_size>(1024^3)){ 
+  # Auxiliary libraries required to avoid maxing memory
+  require(R.utils) # required for reading .gz file by 'fread' function in data.table
+  require(data.table) # required for 'fread' function
+  # Read large VCF
+  vcf=data.frame(data.table::fread(vcf_file_path,skip = num_comments,stringsAsFactors=F,fill = TRUE,sep = "\t")) 
+  } else {
+  # read in normal size vcf file using num_comments; fill TRUE and sep by tab to allow reading of annotated vcfs
   vcf=read.table(input_vcf,header=T,comment.char = "",skip = num_comments,stringsAsFactors=F,fill = TRUE,sep = "\t") 
+  }
   colnames(vcf)[1]="CHROM"
   vcf_filename=basename(input_vcf)
   ChrNot <- nchar(vcf[1,1])
-  write.table(ChrNot,paste0(gsub(".vcf","",vcf_filename),"_chrom_notation_length.txt"),col.names=F,row.names=F,quote=F)
+  if (decide_gz(input_vcf)){
+    write.table(ChrNot,paste0(gsub(".vcf.gz","",vcf_filename),"_chrom_notation_length.txt"),col.names=F,row.names=F,quote=F)
+  } else {
+    write.table(ChrNot,paste0(gsub(".vcf","",vcf_filename),"_chrom_notation_length.txt"),col.names=F,row.names=F,quote=F)
+    }
   if (ChrNot>3){
     print("chr chromosome notation")
     vcf$CHROM=gsub("chr","",vcf$CHROM)
@@ -47,11 +67,14 @@ gnomAD_input_from_vcf=function(input_vcf,variant_filter){
     print(i)
   }
 }
+
 # extract the vcf file string and variant types in the FILTER column to be retained 
 Args=commandArgs(TRUE)
 vcf_path=toString(Args[1])
 variant_filter_types=toString(Args[2])
 
+
 # Run the function
 gnomAD_input_from_vcf(input_vcf = vcf_path,
-                     variant_filter = variant_filter_types)
+                      variant_filter = variant_filter_types)
+
