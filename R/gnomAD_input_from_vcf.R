@@ -34,7 +34,7 @@ gnomAD_input_from_vcf=function(input_vcf,variant_filter){
   require(R.utils) # required for reading .gz file by 'fread' function in data.table
   require(data.table) # required for 'fread' function
   # Read large VCF
-  vcf=data.frame(data.table::fread(vcf_file_path,skip = num_comments,stringsAsFactors=F,fill = TRUE,sep = "\t")) 
+  vcf=data.frame(data.table::fread(input_vcf,skip = num_comments,stringsAsFactors=F,fill = TRUE,sep = "\t")) 
   } else {
   # read in normal size vcf file using num_comments; fill TRUE and sep by tab to allow reading of annotated vcfs
   vcf=read.table(input_vcf,header=T,comment.char = "",skip = num_comments,stringsAsFactors=F,fill = TRUE,sep = "\t") 
