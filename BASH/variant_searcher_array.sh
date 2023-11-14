@@ -10,7 +10,14 @@
 Chr=$SLURM_ARRAY_TASK_ID
 
 vcf_file=$1
-vcf_filename=${vcf_file%.vcf}
+
+# get ID of sample from vcf_file
+if [[ $vcf_file == *.gz ]]; then
+    vcf_filename=${vcf_file%.vcf.gz}
+else
+    vcf_filename=${vcf_file%.vcf}
+fi
+echo $vcf_filename
 
 # gnomAD searcher parallelised across chromosomes #
 
