@@ -1,7 +1,7 @@
 # Function to collate gnomAD output files across all chromosomes
 
 gnomAD_output_collate=function(vcf_file,chrom){
-  vcf_id=gsub(".vcf","",vcf_file)
+  vcf_id=ifelse(grepl("\\.gz$",vcf_file)==TRUE,gsub(".vcf.gz","",vcf_file),gsub(".vcf","",vcf_file))
   collate_output=data.frame()
   for (Chr in chrom){
     chr_output=read.table(paste0(vcf_id,"_chr",Chr,"_gnomAD_output.txt"),stringsAsFactors = F)
